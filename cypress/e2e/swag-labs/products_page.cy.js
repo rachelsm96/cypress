@@ -1,10 +1,33 @@
+context('add and remove items on product page', () => {
+    before(() => {
+      cy.visit('https://www.saucedemo.com/', {failOnStatusCode: false} )
+      cy.get('[id="user-name"]').type('standard_user')
+      cy.get('[id="password"]').type('secret_sauce')
+      cy.get('[id="login-button"]').click()
+    })
+
+    it('add and remove all items to cart', () => {
+      // cy.get('button[id*=add-to-cart-sauce]').as('[id*=add-to-cart-sauce]').click({multiple: true})
+      cy.get('button[id*=add-to-cart]').each(($els) => {
+        cy.wrap($els).click()
+      })
+      cy.get('button[id*=remove]').should('have.length', 6)
+      cy.get('span[data-test=shopping-cart-badge]').should('have.text', '6')
+      cy.get('button[id*=remove]').each(($els) => {
+        cy.wrap($els).click()
+      })
+      cy.get('button[id*=add-to-cart]').should('have.length', 6)
+      cy.get('a[data-test=shopping-cart-link]').should('not.have.class', 'shopping_cart_badge')
+      
+    })
+  })
+
   context('filter section', () => {
     beforeEach(() => {
       cy.visit('https://www.saucedemo.com/', {failOnStatusCode: false} )
       cy.get('[id="user-name"]').type('standard_user')
       cy.get('[id="password"]').type('secret_sauce')
       cy.get('[id="login-button"]').click()
-      cy.on('window:alert', (text)=> true)
     })
 
     it('all filter options are shown', () => {
