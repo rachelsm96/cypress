@@ -1,7 +1,9 @@
 context('checkout page info and actions', () => {
     beforeEach(() => {
       cy.visit('https://www.saucedemo.com', {failOnStatusCode: false} )
-      cy.signIn('standard_user', 'secret_sauce')
+      cy.readFile('cypress/fixtures/users.json').then((users) => {
+        cy.signIn(users[0].username, users[0].password)
+      })
       cy.get('#add-to-cart-sauce-labs-backpack').click()
       cy.get('.shopping_cart_link').click()
     })

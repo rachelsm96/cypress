@@ -1,7 +1,9 @@
 context('add and remove items on product page', () => {
     before(() => {
       cy.visit('https://www.saucedemo.com/', {failOnStatusCode: false} )
-      cy.signIn('standard_user', 'secret_sauce')
+      cy.readFile('cypress/fixtures/users.json').then((users) => {
+        cy.signIn(users[0].username, users[0].password)
+      })
     })
 
     it('add and remove all items to cart', () => {
@@ -22,9 +24,9 @@ context('add and remove items on product page', () => {
   context('filter section', () => {
     beforeEach(() => {
       cy.visit('https://www.saucedemo.com/', {failOnStatusCode: false} )
-      cy.get('[id="user-name"]').type('standard_user')
-      cy.get('[id="password"]').type('secret_sauce')
-      cy.get('[id="login-button"]').click()
+      cy.readFile('cypress/fixtures/users.json').then((users) => {
+        cy.signIn(users[0].username, users[0].password)
+      })
     })
 
     it('all filter options are shown', () => {
