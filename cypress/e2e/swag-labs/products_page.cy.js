@@ -1,13 +1,10 @@
 context('add and remove items on product page', () => {
     before(() => {
       cy.visit('https://www.saucedemo.com/', {failOnStatusCode: false} )
-      cy.get('[id="user-name"]').type('standard_user')
-      cy.get('[id="password"]').type('secret_sauce')
-      cy.get('[id="login-button"]').click()
+      cy.signIn('standard_user', 'secret_sauce')
     })
 
     it('add and remove all items to cart', () => {
-      // cy.get('button[id*=add-to-cart-sauce]').as('[id*=add-to-cart-sauce]').click({multiple: true})
       cy.get('button[id*=add-to-cart]').each(($els) => {
         cy.wrap($els).click()
       })

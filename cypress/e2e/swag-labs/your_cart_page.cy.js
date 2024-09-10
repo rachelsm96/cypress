@@ -1,9 +1,7 @@
 context('checkout page info and actions', () => {
     beforeEach(() => {
       cy.visit('https://www.saucedemo.com', {failOnStatusCode: false} )
-      cy.get('[id="user-name"]').type('standard_user')
-      cy.get('[id="password"]').type('secret_sauce')
-      cy.get('[id="login-button"]').click()
+      cy.signIn('standard_user', 'secret_sauce')
       cy.get('#add-to-cart-sauce-labs-backpack').click()
       cy.get('.shopping_cart_link').click()
     })
