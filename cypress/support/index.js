@@ -1,6 +1,5 @@
-const customCommands = require('./commands.js')
-
+const customCommands = require("./commands.js");
 
 module.exports = {
-    commands: customCommands
-  }
+  commands: customCommands,
+};

@@ -23,6 +23,10 @@ context('add and remove items on product page', () => {
 
   context('filter section', () => {
     beforeEach(() => {
+      cy.fixture('product_info').then(function(product) {
+        this.product = product
+        cy.log(this.product['backpack'].name)
+      })
       cy.visit('https://www.saucedemo.com/', {failOnStatusCode: false} )
       cy.readFile('cypress/fixtures/users.json').then((users) => {
         cy.signIn(users[0].username, users[0].password)
@@ -37,28 +41,29 @@ context('add and remove items on product page', () => {
       }).should('deep.equal', ['Name (A to Z)', 'Name (Z to A)', 'Price (low to high)', 'Price (high to low)']) 
     })
     
-    it('Sort from high to low', () => {
+    it('Sort from high to low', function() {
+      cy.log(this.product['backpack'].name)
       cy.get('[data-test="product-sort-container"]').select(['Price (high to low)'])
       cy.get('.inventory_item_name').should('have.length', 6).then(($els) => {
         return(
           Cypress.$.makeArray($els).map((e1) => e1.innerText)
         )
-      }).should('deep.equal', ['Sauce Labs Fleece Jacket', 'Sauce Labs Backpack', 'Sauce Labs Bolt T-Shirt', 'Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Bike Light', 'Sauce Labs Onesie'])
+      }).should('deep.equal', [this.product['jacket'].name, this.product['backpack'].name, this.product['boltShirt'].name, this.product['redShirt'].name, this.product['bikeLight'].name, this.product['onesie'].name])
       
       cy.get('.inventory_item_price').should('have.length', 6).then(($els) => {
         return(
           Cypress.$.makeArray($els).map((e1) => e1.innerText)
         )
-      }).should('deep.equal', ['$49.99', '$29.99', '$15.99', '$15.99', '$9.99', '$7.99'])
+      }).should('deep.equal', [this.product['jacket'].price, this.product['backpack'].price, this.product['boltShirt'].price, this.product['redShirt'].price, this.product['bikeLight'].price, this.product['onesie'].price])
     })
 
-    it('Sort from low to high', () => {
+    it('Sort from low to high', function() {
       cy.get('[data-test="product-sort-container"]').select(['Price (low to high)'])
       cy.get('.inventory_item_name').should('have.length', 6).then(($els) => {
         return(
           Cypress.$.makeArray($els).map((e1) => e1.innerText)
         )
-      }).should('deep.equal', ['Sauce Labs Onesie', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt', 'Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Backpack', 'Sauce Labs Fleece Jacket'])
+      }).should('deep.equal', [this.product['onesie'].name, this.product['bikeLight'].name, this.product['boltShirt'].name, this.product['redShirt'].name, this.product['backpack'].name, this.product['jacket'].name])
       
       cy.get('.inventory_item_price').should('have.length', 6).then(($els) => {
         return(
@@ -68,14 +73,14 @@ context('add and remove items on product page', () => {
       
     })
 
-    it('Sort A to Z', ()=> {
+    it('Sort A to Z', function() {
       cy.get('[data-test="product-sort-container"]').select(['Name (A to Z)'])
       cy.get('.inventory_item_name').should('have.length', 6).then(($els) => {
         return(
           Cypress.$.makeArray($els).map((e1) => e1.innerText)
         )
-      }).should('deep.equal', ['Sauce Labs Backpack', 'Sauce Labs Bike Light', 'Sauce Labs Bolt T-Shirt', 'Sauce Labs Fleece Jacket', 'Sauce Labs Onesie', 'Test.allTheThings() T-Shirt (Red)'])
-      
+      }).should('deep.equal', [this.product['backpack'].name, this.product['bikeLight'].name, this.product['boltShirt'].name, this.product['jacket'].name, this.product['onesie'].name, this.product['redShirt'].name])
+      cy.log(this.product['backpack'].name)
       cy.get('.inventory_item_price').should('have.length', 6).then(($els) => {
         return(
           Cypress.$.makeArray($els).map((e1) => e1.innerText)
@@ -84,13 +89,13 @@ context('add and remove items on product page', () => {
 
     })
 
-    it('Sort Z to A', ()=> {
+    it('Sort Z to A', function() {
       cy.get('[data-test="product-sort-container"]').select(['Name (Z to A)'])
       cy.get('.inventory_item_name').should('have.length', 6).then(($els) => {
         return(
           Cypress.$.makeArray($els).map((e1) => e1.innerText)
         )
-      }).should('deep.equal', ['Test.allTheThings() T-Shirt (Red)', 'Sauce Labs Onesie', 'Sauce Labs Fleece Jacket', 'Sauce Labs Bolt T-Shirt', 'Sauce Labs Bike Light', 'Sauce Labs Backpack', ])
+      }).should('deep.equal', [this.product['redShirt'].name, this.product['onesie'].name, this.product['jacket'].name, this.product['boltShirt'].name, this.product['bikeLight'].name, this.product['backpack'].name, ])
       
       cy.get('.inventory_item_price').should('have.length', 6).then(($els) => {
         return(
