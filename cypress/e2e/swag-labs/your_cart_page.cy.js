@@ -1,6 +1,9 @@
 context("checkout page info and actions", () => {
   beforeEach(() => {
     cy.visit("https://www.saucedemo.com", { failOnStatusCode: false });
+    cy.fixture("product_info").then(function (product) {
+      this.product = product;
+    });
     cy.readFile("cypress/fixtures/users.json").then((users) => {
       cy.signIn(users[0].username, users[0].password);
     });
@@ -8,13 +11,19 @@ context("checkout page info and actions", () => {
     cy.get(".shopping_cart_link").click();
   });
 
-  it("info of item is correct", () => {
-    cy.get(".inventory_item_name").should("have.text", "Sauce Labs Backpack");
+  it("info of item is correct", function () {
+    cy.get(".inventory_item_name").should(
+      "have.text",
+      product["backpack"].name,
+    );
     cy.get(".inventory_item_desc").should(
       "have.text",
-      "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.",
+      product["backpack"].description,
     );
-    cy.get(".inventory_item_price").should("have.text", "$29.99");
+    cy.get(".inventory_item_price").should(
+      "have.text",
+      product["backpack"].price,
+    );
   });
 
   it("can navigate back to product page", () => {

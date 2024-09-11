@@ -27,7 +27,6 @@ context("filter section", () => {
   beforeEach(() => {
     cy.fixture("product_info").then(function (product) {
       this.product = product;
-      cy.log(this.product["backpack"].name);
     });
     cy.visit("https://www.saucedemo.com/", { failOnStatusCode: false });
     cy.readFile("cypress/fixtures/users.json").then((users) => {
