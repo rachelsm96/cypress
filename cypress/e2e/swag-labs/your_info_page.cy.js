@@ -14,6 +14,7 @@ context("check your infomation page tests", () => {
 
   it("no info inputed", () => {
     cy.get("#continue").click();
+    cy.get(".title").should("have.text", "Checkout: Your Information");
     cy.get(".error").should("have.length", 4);
     cy.get(".error-message-container").should(
       "have.text",
@@ -21,7 +22,28 @@ context("check your infomation page tests", () => {
     );
   });
 
-  it("required infomation is provided", () => {
+  it("only first name is provided", () => {
+    cy.get("input#first-name").type("Jane");
+    cy.get("#continue").click();
+    cy.get(".title").should("have.text", "Checkout: Your Information");
+    cy.get(".error-message-container").should(
+      "have.text",
+      "Error: Last Name is required",
+    );
+  });
+
+  it("first and last name provided", () => {
+    cy.get("input#first-name").type("Jane");
+    cy.get("input#last-name").type("Doe");
+    cy.get("#continue").click();
+    cy.get(".title").should("have.text", "Checkout: Your Information");
+    cy.get(".error-message-container").should(
+      "have.text",
+      "Error: Postal Code is required",
+    );
+  });
+
+  it("all infomation is provided", () => {
     cy.get("input#first-name").type("Jane");
     cy.get("input#last-name").type("Doe");
     cy.get("input#postal-code").type("90210");
