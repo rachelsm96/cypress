@@ -1,6 +1,6 @@
 # Cypress
 
-I'm using Swag Labs demo website, https://www.saucedemo.com/, to create some E2E tests using Crypress and Javasciprt  
+I'm using Swag Labs demo website, https://www.saucedemo.com/, to create some E2E tests using Crypress and Javascript  
 For more information on cypress: https://www.cypress.io/
 
 ## Setup
